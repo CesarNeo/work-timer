@@ -1,3 +1,5 @@
+import HomeTemplate from './pages/home'
+
 export default function Home() {
-  return <h1>Hello world</h1>
+  return HomeTemplate()
 }
