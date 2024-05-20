@@ -1,4 +1,4 @@
-import HomeTemplate from './pages/home'
+import HomeTemplate from '../pages/home'
 
 export default function Home() {
   return HomeTemplate()
