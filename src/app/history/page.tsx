@@ -1,5 +1,7 @@
+import HistoryTemplate from '@/pages/history-page'
+
 function HistoryPage() {
-  return <div>Enter</div>
+  return HistoryTemplate()
 }
 
 export default HistoryPage

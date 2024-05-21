@@ -1,5 +1,7 @@
 import HomeTemplate from '../pages/home'
 
-export default function Home() {
+function Home() {
   return HomeTemplate()
 }
+
+export default Home
