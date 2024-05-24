@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.variable} ${robotoMono.variable} flex h-dvh w-dvw items-center justify-center bg-gray-900 font-sans text-base font-normal text-gray-300 antialiased`}
+        className={`${roboto.variable} ${robotoMono.variable} flex h-dvh w-dvw justify-center bg-gray-900 py-40 font-sans text-base font-normal text-gray-300 antialiased`}
       >
         <div className="flex w-full max-w-[74rem] flex-col rounded-lg bg-gray-800 p-10">
           <Header />
