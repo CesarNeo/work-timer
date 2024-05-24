@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Roboto, Roboto_Mono as RobotoMono } from 'next/font/google'
 
 import Header from '@/components/base/header'
+import Toaster from '@/components/base/toaster'
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -34,6 +35,8 @@ export default function RootLayout({
         <div className="flex w-full max-w-[74rem] flex-col rounded-lg bg-gray-800 p-10">
           <Header />
           {children}
+
+          <Toaster richColors />
         </div>
       </body>
     </html>

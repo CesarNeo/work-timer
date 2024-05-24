@@ -1,5 +1,9 @@
 import type { ComponentProps } from 'react'
+import type { z } from 'zod'
+
+import type { counterFormSchema } from './validation'
 
 type ICounterProps = ComponentProps<'span'>
+type ICounterFormData = z.infer<typeof counterFormSchema>
 
-export type { ICounterProps }
+export type { ICounterProps, ICounterFormData }
