@@ -1,7 +1,7 @@
 import HistoryTemplate from '@/pages/history-page'
 
 function HistoryPage() {
-  return HistoryTemplate()
+  return <HistoryTemplate />
 }
 
 export default HistoryPage

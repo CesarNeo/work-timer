@@ -6,4 +6,13 @@ import type { counterFormSchema } from './validation'
 type ICounterProps = ComponentProps<'span'>
 type ICounterFormData = z.infer<typeof counterFormSchema>
 
-export type { ICounterProps, ICounterFormData }
+type ICycle = {
+  id: string
+  task: string
+  minutesAmount: number
+  startDate: Date
+  interruptedDate?: Date
+  finishedDate?: Date
+}
+
+export type { ICounterProps, ICounterFormData, ICycle }

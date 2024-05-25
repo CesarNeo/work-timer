@@ -5,6 +5,7 @@ import { Roboto, Roboto_Mono as RobotoMono } from 'next/font/google'
 
 import Header from '@/components/base/header'
 import Toaster from '@/components/base/toaster'
+import { CyclesProvider } from '@/contexts/cycles'
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -34,7 +35,7 @@ export default function RootLayout({
       >
         <div className="flex w-full max-w-[74rem] flex-col rounded-lg bg-gray-800 p-10">
           <Header />
-          {children}
+          <CyclesProvider>{children}</CyclesProvider>
 
           <Toaster richColors />
         </div>
