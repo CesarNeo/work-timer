@@ -6,16 +6,11 @@ import { useForm } from 'react-hook-form'
 import Input from '@/components/base/input'
 import { useCyclesContext } from '@/contexts/cycles'
 
-import type { ICounterFormData, ICycle } from '../types'
+import type { ICounterFormData } from '../types'
 import { counterFormSchema } from '../validation'
 
 function CounterForm() {
-  const {
-    updateCycle,
-    updateActiveCycleId,
-    resetAmountSecondsPassed,
-    hasActiveCycle,
-  } = useCyclesContext()
+  const { createNewCycle, hasActiveCycle } = useCyclesContext()
 
   const {
     reset,
@@ -27,18 +22,7 @@ function CounterForm() {
   })
 
   const handleCreateTask = handleSubmit(({ task, minutesAmount }) => {
-    const cycleId = crypto.randomUUID()
-
-    const newCycle: ICycle = {
-      id: cycleId,
-      task,
-      minutesAmount,
-      startDate: new Date(),
-    }
-
-    updateCycle(newCycle)
-    updateActiveCycleId(cycleId)
-    resetAmountSecondsPassed()
+    createNewCycle({ task, minutesAmount })
 
     reset()
   })

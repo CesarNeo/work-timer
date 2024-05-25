@@ -5,10 +5,17 @@ import {
   type ReactNode,
   useCallback,
   useContext,
+  useReducer,
   useState,
 } from 'react'
 
 import type { ICycle } from '@/pages/home/types'
+import {
+  createNewCycleAction,
+  finishCycleAction,
+  interruptCycleAction,
+} from '@/reducers/cycles/actions'
+import { cyclesReducer } from '@/reducers/cycles/reducer'
 
 interface ICyclesContext {
   cycles: ICycle[]
@@ -16,9 +23,8 @@ interface ICyclesContext {
   activeCycleId: string | null
   hasActiveCycle: boolean
   amountSecondsPassed: number
+  createNewCycle: (cycle: Omit<ICycle, 'id' | 'startDate'>) => void
   markCurrentCycleAsFinished: () => void
-  updateCycle: (cycle: ICycle) => void
-  updateActiveCycleId: (id: string) => void
   interruptCycle: () => void
   updateAmountSecondsPassed: (seconds: number) => void
   resetAmountSecondsPassed: () => void
@@ -27,77 +33,62 @@ interface ICyclesContext {
 const CyclesContext = createContext({} as ICyclesContext)
 
 function CyclesProvider({ children }: { children: ReactNode }) {
-  const [cyclesState, setCyclesState] = useState<ICycle[]>([])
-  const [activeCycleIdState, setActiveCycleIdState] = useState<string | null>(
-    null,
-  )
+  const [cyclesState, dispatch] = useReducer(cyclesReducer, {
+    cycles: [] as ICycle[],
+    activeCycleId: null,
+  })
+
   const [amountSecondsPassedState, setAmountSecondsPassedState] = useState(0)
 
-  const currentCycle = cyclesState.find(
-    (cycle) => cycle.id === activeCycleIdState,
-  )
+  const { cycles, activeCycleId } = cyclesState
+
+  const currentCycle = cycles.find((cycle) => cycle.id === activeCycleId)
   const hasActiveCycle = Boolean(currentCycle)
 
-  const markCurrentCycleAsFinished = useCallback(() => {
-    setCyclesState((cycles) =>
-      cycles.map((cycle) => {
-        if (cycle.id === activeCycleIdState) {
-          return {
-            ...cycle,
-            finishedDate: new Date(),
-          }
-        }
+  const markCurrentCycleAsFinished = useCallback(
+    () => dispatch(finishCycleAction()),
+    [],
+  )
 
-        return cycle
-      }),
-    )
-  }, [activeCycleIdState])
+  const updateAmountSecondsPassed = useCallback(
+    (seconds: number) => setAmountSecondsPassedState(seconds),
+    [],
+  )
 
-  const updateCycle = useCallback((cycle: ICycle) => {
-    setCyclesState((cycles) => [...cycles, cycle])
-  }, [])
+  const resetAmountSecondsPassed = useCallback(
+    () => updateAmountSecondsPassed(0),
+    [updateAmountSecondsPassed],
+  )
 
-  const updateActiveCycleId = useCallback((id: string) => {
-    setActiveCycleIdState(id)
-  }, [])
+  const interruptCycle = useCallback(() => dispatch(interruptCycleAction()), [])
 
-  const updateAmountSecondsPassed = useCallback((seconds: number) => {
-    setAmountSecondsPassedState(seconds)
-  }, [])
+  const createNewCycle = useCallback(
+    ({ task, minutesAmount }: Omit<ICycle, 'id' | 'startDate'>) => {
+      const cycleId = crypto.randomUUID()
 
-  const resetAmountSecondsPassed = useCallback(() => {
-    updateAmountSecondsPassed(0)
-  }, [updateAmountSecondsPassed])
+      const newCycle: ICycle = {
+        id: cycleId,
+        task,
+        minutesAmount,
+        startDate: new Date(),
+      }
 
-  const interruptCycle = useCallback(() => {
-    setCyclesState((cycles) =>
-      cycles.map((cycle) => {
-        if (cycle.id === activeCycleIdState) {
-          return {
-            ...cycle,
-            interruptedDate: new Date(),
-          }
-        }
-
-        return cycle
-      }),
-    )
-
-    setActiveCycleIdState(null)
-    resetAmountSecondsPassed()
-  }, [activeCycleIdState, resetAmountSecondsPassed])
+      dispatch(createNewCycleAction(newCycle))
+      resetAmountSecondsPassed()
+    },
+    [resetAmountSecondsPassed],
+  )
 
   return (
     <CyclesContext.Provider
       value={{
-        cycles: cyclesState,
+        cycles,
         currentCycle,
         hasActiveCycle,
-        activeCycleId: activeCycleIdState,
+        activeCycleId,
         amountSecondsPassed: amountSecondsPassedState,
+        createNewCycle,
         markCurrentCycleAsFinished,
-        updateCycle,
-        updateActiveCycleId,
         interruptCycle,
         updateAmountSecondsPassed,
         resetAmountSecondsPassed,
