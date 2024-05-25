@@ -11,6 +11,7 @@ import {
 import type { ICycle } from '@/pages/home/types'
 
 interface ICyclesContext {
+  cycles: ICycle[]
   currentCycle: ICycle | undefined
   activeCycleId: string | null
   hasActiveCycle: boolean
@@ -89,6 +90,7 @@ function CyclesProvider({ children }: { children: ReactNode }) {
   return (
     <CyclesContext.Provider
       value={{
+        cycles: cyclesState,
         currentCycle,
         hasActiveCycle,
         activeCycleId: activeCycleIdState,
