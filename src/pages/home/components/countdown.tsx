@@ -21,12 +21,10 @@ function Countdown() {
   const minutesAmount = Math.floor(currentSeconds / 60)
   const secondsAmount = currentSeconds % 60
   const minutes = String(minutesAmount).padStart(2, '0')
-  console.log('🚀 ~ Countdown ~ minutes:', minutes)
   const seconds = String(secondsAmount).padStart(2, '0')
 
   useEffect(() => {
     let cycleInterval: NodeJS.Timeout
-    console.log('🚀 ~ useEffect ~ currentCycle:', currentCycle)
 
     if (currentCycle) {
       cycleInterval = setInterval(() => {
@@ -43,7 +41,6 @@ function Countdown() {
         }
 
         updateAmountSecondsPassed(cycleDifferenceInSeconds)
-        console.log('aqui')
       }, 1000)
     }
 

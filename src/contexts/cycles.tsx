@@ -1,5 +1,6 @@
 'use client'
 
+import { differenceInSeconds } from 'date-fns'
 import {
   createContext,
   type ReactNode,
@@ -9,6 +10,7 @@ import {
   useState,
 } from 'react'
 
+import { getCyclesStateFromLocalStorage } from '@/localstorage/cycles'
 import type { ICycle } from '@/pages/home/types'
 import {
   createNewCycleAction,
@@ -16,6 +18,7 @@ import {
   interruptCycleAction,
 } from '@/reducers/cycles/actions'
 import { cyclesReducer } from '@/reducers/cycles/reducer'
+import type { ICyclesState } from '@/reducers/cycles/types'
 
 interface ICyclesContext {
   cycles: ICycle[]
@@ -32,18 +35,30 @@ interface ICyclesContext {
 
 const CyclesContext = createContext({} as ICyclesContext)
 
+const defaultCyclesState: ICyclesState = {
+  cycles: [] as ICycle[],
+  activeCycleId: null,
+}
+
 function CyclesProvider({ children }: { children: ReactNode }) {
-  const [cyclesState, dispatch] = useReducer(cyclesReducer, {
-    cycles: [] as ICycle[],
-    activeCycleId: null,
-  })
-
-  const [amountSecondsPassedState, setAmountSecondsPassedState] = useState(0)
-
+  const [cyclesState, dispatch] = useReducer(
+    cyclesReducer,
+    defaultCyclesState,
+    getCyclesStateFromLocalStorage,
+  )
   const { cycles, activeCycleId } = cyclesState
-
   const currentCycle = cycles.find((cycle) => cycle.id === activeCycleId)
   const hasActiveCycle = Boolean(currentCycle)
+
+  const [amountSecondsPassedState, setAmountSecondsPassedState] = useState(
+    () => {
+      if (hasActiveCycle && currentCycle) {
+        return differenceInSeconds(new Date(), currentCycle.startDate)
+      }
+
+      return 0
+    },
+  )
 
   const markCurrentCycleAsFinished = useCallback(
     () => dispatch(finishCycleAction()),
