@@ -36,9 +36,8 @@ export default function RootLayout({
         <div className="absolute inset-y-[10%] left-1/2 flex w-full max-w-[74rem] -translate-x-1/2 flex-col rounded-lg bg-gray-800 p-10">
           <Header />
           <CyclesProvider>{children}</CyclesProvider>
-
-          <Toaster richColors />
         </div>
+        <Toaster richColors />
       </body>
     </html>
   )

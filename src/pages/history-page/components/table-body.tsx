@@ -14,7 +14,13 @@ import TaskStatus from './task-status'
 function TableBody({ currentPage, ...props }: ITableBodyProps) {
   const { cycles, deleteCycle } = useCyclesContext()
 
-  const cyclesSliced = cycles.slice((currentPage - 1) * 10, currentPage * 10)
+  const cyclesSliced = cycles
+    .slice((currentPage - 1) * 10, currentPage * 10)
+    .sort((a, b) => {
+      if (a.startDate < b.startDate) return 1
+      if (a.startDate > b.startDate) return -1
+      return 0
+    })
 
   return (
     <tbody {...props}>

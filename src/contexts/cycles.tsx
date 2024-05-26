@@ -9,6 +9,7 @@ import {
   useReducer,
   useState,
 } from 'react'
+import { toast } from 'sonner'
 
 import { getCyclesStateFromLocalStorage } from '@/localstorage/cycles'
 import type { ICycle } from '@/pages/home/types'
@@ -82,8 +83,14 @@ function CyclesProvider({ children }: { children: ReactNode }) {
   const interruptCycle = useCallback(() => dispatch(interruptCycleAction()), [])
   const pauseCycle = useCallback(() => dispatch(pauseCycleAction()), [])
   const deleteCycle = useCallback(
-    (cycleId: string) => dispatch(deleteCycleAction(cycleId)),
-    [],
+    (cycleId: string) => {
+      if (cycleId === activeCycleId) {
+        return toast.error('Você não pode deletar um ciclo em andamento')
+      }
+
+      dispatch(deleteCycleAction(cycleId))
+    },
+    [activeCycleId],
   )
 
   const createNewCycle = useCallback(
