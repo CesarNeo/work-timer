@@ -19,9 +19,8 @@ function HistoryTemplate({ searchParams: { page } }: IHistoryPageParams) {
               </TableHeadColumn>
               <TableHeadColumn>Duração</TableHeadColumn>
               <TableHeadColumn>Inicio</TableHeadColumn>
-              <TableHeadColumn className="rounded-tr-lg pr-6">
-                Status
-              </TableHeadColumn>
+              <TableHeadColumn>Status</TableHeadColumn>
+              <TableHeadColumn className="rounded-tr-lg pr-6"></TableHeadColumn>
             </tr>
           </thead>
 

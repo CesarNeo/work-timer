@@ -21,9 +21,17 @@ function pauseCycleAction() {
   return { type: CyclesActionTypes.PAUSE_CYCLE }
 }
 
+function deleteCycleAction(cycleId: string) {
+  return {
+    type: CyclesActionTypes.DELETE_CYCLE,
+    payload: { cycleId },
+  }
+}
+
 export {
   createNewCycleAction,
   interruptCycleAction,
   finishCycleAction,
   pauseCycleAction,
+  deleteCycleAction,
 }

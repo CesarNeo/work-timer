@@ -14,6 +14,7 @@ import { getCyclesStateFromLocalStorage } from '@/localstorage/cycles'
 import type { ICycle } from '@/pages/home/types'
 import {
   createNewCycleAction,
+  deleteCycleAction,
   finishCycleAction,
   interruptCycleAction,
   pauseCycleAction,
@@ -33,6 +34,7 @@ interface ICyclesContext {
   updateAmountSecondsPassed: (seconds: number) => void
   resetAmountSecondsPassed: () => void
   pauseCycle: () => void
+  deleteCycle: (cycleId: string) => void
 }
 
 const CyclesContext = createContext({} as ICyclesContext)
@@ -79,6 +81,10 @@ function CyclesProvider({ children }: { children: ReactNode }) {
 
   const interruptCycle = useCallback(() => dispatch(interruptCycleAction()), [])
   const pauseCycle = useCallback(() => dispatch(pauseCycleAction()), [])
+  const deleteCycle = useCallback(
+    (cycleId: string) => dispatch(deleteCycleAction(cycleId)),
+    [],
+  )
 
   const createNewCycle = useCallback(
     ({ task, timeAmount, timeUnit }: Omit<ICycle, 'id' | 'startDate'>) => {
@@ -112,6 +118,7 @@ function CyclesProvider({ children }: { children: ReactNode }) {
         updateAmountSecondsPassed,
         resetAmountSecondsPassed,
         pauseCycle,
+        deleteCycle,
       }}
     >
       {children}

@@ -10,12 +10,14 @@ enum CyclesActionTypes {
   INTERRUPT_CYCLE = 'INTERRUPT_CYCLE',
   FINISH_CYCLE = 'FINISH_CYCLE',
   PAUSE_CYCLE = 'PAUSE_CYCLE',
+  DELETE_CYCLE = 'DELETE_CYCLE',
 }
 
 type ICyclesActions = {
   type: keyof typeof CyclesActionTypes
   payload?: {
-    newCycle: ICycle
+    newCycle?: ICycle
+    cycleId?: string
   }
 }
 

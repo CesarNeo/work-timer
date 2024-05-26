@@ -9,6 +9,9 @@ type ITaskStatusProps = ComponentProps<'span'> & {
 type ITableBodyProps = ComponentProps<'tbody'> & {
   currentPage: number
 }
+
+type ITableRowsProps = ComponentProps<'tr'>
+
 type IPaginationProps = ComponentProps<'nav'> & {
   currentPage: number
 }
@@ -25,6 +28,7 @@ export type {
   ITaskStatusProps,
   ITaskStatusColor,
   IHistoryPageParams,
+  ITableRowsProps,
   ITableBodyProps,
   IPaginationProps,
 }

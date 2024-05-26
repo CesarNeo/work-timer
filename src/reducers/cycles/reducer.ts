@@ -81,6 +81,17 @@ export function cyclesReducer(
       saveCyclesStateToLocalStorage(newState)
       return newState
     }
+    case CyclesActionTypes.DELETE_CYCLE: {
+      const newState = {
+        ...state,
+        cycles: state.cycles.filter(
+          (cycle) => cycle.id !== action.payload?.cycleId,
+        ),
+      }
+
+      saveCyclesStateToLocalStorage(newState)
+      return newState
+    }
     default:
       saveCyclesStateToLocalStorage(state)
       return state

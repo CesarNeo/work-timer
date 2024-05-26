@@ -2,25 +2,24 @@
 
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale/pt-BR'
+import { Trash } from 'lucide-react'
 
 import { useCyclesContext } from '@/contexts/cycles'
 
 import type { ITableBodyProps } from '../types'
 import TableCellColumn from './table-cell-column'
+import TableRow from './table-row'
 import TaskStatus from './task-status'
 
 function TableBody({ currentPage, ...props }: ITableBodyProps) {
-  const { cycles } = useCyclesContext()
+  const { cycles, deleteCycle } = useCyclesContext()
 
-  const totalCyclesSliced = cycles.slice(
-    (currentPage - 1) * 10,
-    currentPage * 10,
-  )
+  const cyclesSliced = cycles.slice((currentPage - 1) * 10, currentPage * 10)
 
   return (
     <tbody {...props}>
-      {totalCyclesSliced.map((cycles) => (
-        <tr key={cycles.id}>
+      {cyclesSliced.map((cycles) => (
+        <TableRow key={cycles.id}>
           <TableCellColumn className="w-1/2 pl-6">
             {cycles.task}
           </TableCellColumn>
@@ -33,7 +32,7 @@ function TableBody({ currentPage, ...props }: ITableBodyProps) {
               locale: ptBR,
             })}
           </TableCellColumn>
-          <TableCellColumn className="pr-6">
+          <TableCellColumn>
             {cycles.finishedDate && (
               <TaskStatus statusColor="green">Concluído</TaskStatus>
             )}
@@ -46,7 +45,16 @@ function TableBody({ currentPage, ...props }: ITableBodyProps) {
               <TaskStatus statusColor="yellow">Em andamento</TaskStatus>
             )}
           </TableCellColumn>
-        </tr>
+          <TableCellColumn className="pr-6">
+            <button
+              type="button"
+              className="flex size-7 items-center justify-center rounded transition-colors hover:bg-red-300 hover:text-red-800"
+              onClick={() => deleteCycle(cycles.id)}
+            >
+              <Trash className="size-5" />
+            </button>
+          </TableCellColumn>
+        </TableRow>
       ))}
     </tbody>
   )
