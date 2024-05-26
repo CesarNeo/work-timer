@@ -31,9 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.variable} ${robotoMono.variable} flex h-dvh w-dvw justify-center bg-gray-900 py-40 font-sans text-base font-normal text-gray-300 antialiased`}
+        className={`${roboto.variable} ${robotoMono.variable} relative flex h-dvh w-dvw bg-gray-900 font-sans text-base font-normal text-gray-300 antialiased`}
       >
-        <div className="flex w-full max-w-[74rem] flex-col rounded-lg bg-gray-800 p-10">
+        <div className="absolute inset-y-[10%] left-1/2 flex w-full max-w-[74rem] -translate-x-1/2 flex-col rounded-lg bg-gray-800 p-10">
           <Header />
           <CyclesProvider>{children}</CyclesProvider>
 

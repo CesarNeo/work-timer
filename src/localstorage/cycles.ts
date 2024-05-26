@@ -4,6 +4,10 @@ import type { ICyclesState } from '@/reducers/cycles/types'
 function getCyclesStateFromLocalStorage(
   initialState: ICyclesState,
 ): ICyclesState {
+  if (typeof window === 'undefined') {
+    return initialState
+  }
+
   const cyclesState = localStorage.getItem('@ignite-timer:cycles-state')
 
   if (!cyclesState) {
@@ -21,6 +25,7 @@ function getCyclesStateFromLocalStorage(
       interruptedDate: cycle.interruptedDate
         ? new Date(cycle.interruptedDate)
         : null,
+      pausedDate: cycle.pausedDate ? new Date(cycle.pausedDate) : null,
     })),
   }
 }

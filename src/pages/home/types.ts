@@ -9,10 +9,12 @@ type ICounterFormData = z.infer<typeof counterFormSchema>
 type ICycle = {
   id: string
   task: string
-  minutesAmount: number
+  timeAmount: number
+  timeUnit: 'minutes' | 'hours'
   startDate: Date
   interruptedDate?: Date
   finishedDate?: Date
+  pausedDate?: Date
 }
 
 export type { ICounterProps, ICounterFormData, ICycle }

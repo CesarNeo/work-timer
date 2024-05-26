@@ -4,8 +4,10 @@ import { differenceInSeconds } from 'date-fns'
 import { useEffect } from 'react'
 
 import { useCyclesContext } from '@/contexts/cycles'
+import { getTimer } from '@/utils/get-timer'
 
 import Counter from './counter'
+import CounterSeparator from './counter-separator'
 
 function Countdown() {
   const {
@@ -16,12 +18,13 @@ function Countdown() {
     updateAmountSecondsPassed,
   } = useCyclesContext()
 
-  const totalSeconds = currentCycle ? currentCycle.minutesAmount * 60 : 0
-  const currentSeconds = currentCycle ? totalSeconds - amountSecondsPassed : 0
-  const minutesAmount = Math.floor(currentSeconds / 60)
-  const secondsAmount = currentSeconds % 60
-  const minutes = String(minutesAmount).padStart(2, '0')
-  const seconds = String(secondsAmount).padStart(2, '0')
+  const isHours = currentCycle?.timeUnit === 'hours'
+
+  const { hours, minutes, seconds, totalSeconds } = getTimer({
+    time: currentCycle?.timeAmount,
+    isHours,
+    amountSecondsPassed,
+  })
 
   useEffect(() => {
     let cycleInterval: NodeJS.Timeout
@@ -44,9 +47,7 @@ function Countdown() {
       }, 1000)
     }
 
-    return () => {
-      clearInterval(cycleInterval)
-    }
+    return () => clearInterval(cycleInterval)
   }, [
     activeCycleId,
     currentCycle,
@@ -54,13 +55,19 @@ function Countdown() {
     totalSeconds,
     updateAmountSecondsPassed,
   ])
+
   return (
-    <div className="flex gap-4 font-roboto-mono text-[12.5rem] leading-[12.5rem] text-gray-100">
+    <div className="flex gap-4 font-roboto-mono text-8xl text-gray-100">
+      <Counter>{hours[0]}</Counter>
+      <Counter>{hours[1]}</Counter>
+
+      <CounterSeparator />
+
       <Counter>{minutes[0]}</Counter>
       <Counter>{minutes[1]}</Counter>
-      <span className="flex w-16 justify-center overflow-hidden rounded-lg px-4 py-8 text-green-500">
-        :
-      </span>
+
+      <CounterSeparator />
+
       <Counter>{seconds[0]}</Counter>
       <Counter>{seconds[1]}</Counter>
     </div>

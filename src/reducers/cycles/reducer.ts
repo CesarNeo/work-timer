@@ -63,6 +63,24 @@ export function cyclesReducer(
       saveCyclesStateToLocalStorage(newState)
       return newState
     }
+    case CyclesActionTypes.PAUSE_CYCLE: {
+      const newState = {
+        ...state,
+        cycles: state.cycles.map((cycle) => {
+          if (cycle.id === state.activeCycleId) {
+            return {
+              ...cycle,
+              pausedDate: new Date(),
+            }
+          }
+
+          return cycle
+        }),
+      }
+
+      saveCyclesStateToLocalStorage(newState)
+      return newState
+    }
     default:
       saveCyclesStateToLocalStorage(state)
       return state

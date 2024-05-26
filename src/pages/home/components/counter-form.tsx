@@ -1,9 +1,16 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 
 import Input from '@/components/base/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/base/select'
 import { useCyclesContext } from '@/contexts/cycles'
 
 import type { ICounterFormData } from '../types'
@@ -13,6 +20,7 @@ function CounterForm() {
   const { createNewCycle, hasActiveCycle } = useCyclesContext()
 
   const {
+    control,
     reset,
     register,
     handleSubmit,
@@ -21,8 +29,8 @@ function CounterForm() {
     resolver: zodResolver(counterFormSchema),
   })
 
-  const handleCreateTask = handleSubmit(({ task, minutesAmount }) => {
-    createNewCycle({ task, minutesAmount })
+  const handleCreateTask = handleSubmit(({ task, timeAmount, timeUnit }) => {
+    createNewCycle({ task, timeAmount, timeUnit })
 
     reset()
   })
@@ -44,19 +52,34 @@ function CounterForm() {
         disabled={hasActiveCycle}
       />
 
-      <label htmlFor="minutesAmount">durante</label>
+      <label htmlFor="timeAmount">durante</label>
       <Input
-        {...register('minutesAmount')}
-        id="minutesAmount"
+        {...register('timeAmount')}
+        id="timeAmount"
         type="number"
         placeholder="00"
         className="w-16"
-        step={5}
-        error={errors.minutesAmount?.message}
+        // step={5}
+        error={errors.timeAmount?.message}
         disabled={hasActiveCycle}
       />
 
-      <span>minutos.</span>
+      <Controller
+        control={control}
+        name="timeUnit"
+        render={({ field: { onChange, value, ...rest } }) => (
+          <Select {...rest} onValueChange={onChange} value={value}>
+            <SelectTrigger className="max-w-40">
+              <SelectValue placeholder="Selecione o tempo" />
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectItem value="hours">Horas</SelectItem>
+              <SelectItem value="minutes">Minutos</SelectItem>
+            </SelectContent>
+          </Select>
+        )}
+      />
     </form>
   )
 }

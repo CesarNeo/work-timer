@@ -1,11 +1,11 @@
 'use client'
 
-import { Ban, Play } from 'lucide-react'
+import { Ban, Pause, Play } from 'lucide-react'
 
 import { useCyclesContext } from '@/contexts/cycles'
 
 function ButtonCountdownActions() {
-  const { currentCycle, interruptCycle } = useCyclesContext()
+  const { currentCycle, interruptCycle, pauseCycle } = useCyclesContext()
 
   if (!currentCycle) {
     return (
@@ -21,14 +21,24 @@ function ButtonCountdownActions() {
   }
 
   return (
-    <button
-      type="button"
-      className="flex w-full items-center justify-center gap-2 rounded-lg bg-red-500 p-4 font-bold text-gray-100 transition-all enabled:hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-70"
-      onClick={interruptCycle}
-    >
-      <Ban className="size-6" />
-      Interromper
-    </button>
+    <div className="flex w-full gap-3">
+      <button
+        type="button"
+        className="flex w-full items-center justify-center gap-2 rounded-lg bg-red-500 p-4 font-bold text-gray-100 transition-all enabled:hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-70"
+        onClick={interruptCycle}
+      >
+        <Ban className="size-6" />
+        Interromper
+      </button>
+      <button
+        type="button"
+        className="flex w-full items-center justify-center gap-2 rounded-lg bg-yellow-500 p-4 font-bold text-gray-700 transition-all enabled:hover:bg-yellow-700 disabled:cursor-not-allowed disabled:opacity-70"
+        onClick={pauseCycle}
+      >
+        <Pause className="size-6" />
+        Pausar
+      </button>
+    </div>
   )
 }
 

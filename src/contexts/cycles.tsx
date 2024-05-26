@@ -16,6 +16,7 @@ import {
   createNewCycleAction,
   finishCycleAction,
   interruptCycleAction,
+  pauseCycleAction,
 } from '@/reducers/cycles/actions'
 import { cyclesReducer } from '@/reducers/cycles/reducer'
 import type { ICyclesState } from '@/reducers/cycles/types'
@@ -31,6 +32,7 @@ interface ICyclesContext {
   interruptCycle: () => void
   updateAmountSecondsPassed: (seconds: number) => void
   resetAmountSecondsPassed: () => void
+  pauseCycle: () => void
 }
 
 const CyclesContext = createContext({} as ICyclesContext)
@@ -76,15 +78,17 @@ function CyclesProvider({ children }: { children: ReactNode }) {
   )
 
   const interruptCycle = useCallback(() => dispatch(interruptCycleAction()), [])
+  const pauseCycle = useCallback(() => dispatch(pauseCycleAction()), [])
 
   const createNewCycle = useCallback(
-    ({ task, minutesAmount }: Omit<ICycle, 'id' | 'startDate'>) => {
+    ({ task, timeAmount, timeUnit }: Omit<ICycle, 'id' | 'startDate'>) => {
       const cycleId = crypto.randomUUID()
 
       const newCycle: ICycle = {
         id: cycleId,
         task,
-        minutesAmount,
+        timeAmount,
+        timeUnit,
         startDate: new Date(),
       }
 
@@ -107,6 +111,7 @@ function CyclesProvider({ children }: { children: ReactNode }) {
         interruptCycle,
         updateAmountSecondsPassed,
         resetAmountSecondsPassed,
+        pauseCycle,
       }}
     >
       {children}

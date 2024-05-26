@@ -1,19 +1,13 @@
-'use client'
-
-import { formatDistanceToNow } from 'date-fns'
-import { ptBR } from 'date-fns/locale/pt-BR'
-
-import { useCyclesContext } from '@/contexts/cycles'
-
-import TableCellColumn from './components/table-cell-column'
+import Pagination from './components/pagination'
+import TableBody from './components/table-body'
 import TableHeadColumn from './components/table-head-column'
-import TaskStatus from './components/task-status'
+import type { IHistoryPageParams } from './types'
 
-function HistoryTemplate() {
-  const { cycles } = useCyclesContext()
+function HistoryTemplate({ searchParams: { page } }: IHistoryPageParams) {
+  const currentPage = Number(page) || 1
 
   return (
-    <main className="flex flex-1 flex-col p-14">
+    <main className="flex flex-1 flex-col overflow-hidden p-14">
       <h1 className="text-2xl font-bold text-gray-100">Meu histórico</h1>
 
       <div className="mt-8 flex-1 overflow-auto">
@@ -31,37 +25,11 @@ function HistoryTemplate() {
             </tr>
           </thead>
 
-          <tbody>
-            {cycles.map((cycles) => (
-              <tr key={cycles.id}>
-                <TableCellColumn className="w-1/2 pl-6">
-                  {cycles.task}
-                </TableCellColumn>
-                <TableCellColumn>{cycles.minutesAmount}</TableCellColumn>
-                <TableCellColumn>
-                  {formatDistanceToNow(cycles.startDate, {
-                    addSuffix: true,
-                    locale: ptBR,
-                  })}
-                </TableCellColumn>
-                <TableCellColumn className="pr-6">
-                  {cycles.finishedDate && (
-                    <TaskStatus statusColor="green">Concluído</TaskStatus>
-                  )}
-
-                  {cycles.interruptedDate && (
-                    <TaskStatus statusColor="red">Interrompido</TaskStatus>
-                  )}
-
-                  {!cycles.finishedDate && !cycles.interruptedDate && (
-                    <TaskStatus statusColor="yellow">Em andamento</TaskStatus>
-                  )}
-                </TableCellColumn>
-              </tr>
-            ))}
-          </tbody>
+          <TableBody currentPage={currentPage} />
         </table>
       </div>
+
+      <Pagination currentPage={currentPage} />
     </main>
   )
 }

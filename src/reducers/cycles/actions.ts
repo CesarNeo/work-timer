@@ -17,4 +17,13 @@ function finishCycleAction() {
   return { type: CyclesActionTypes.FINISH_CYCLE }
 }
 
-export { createNewCycleAction, interruptCycleAction, finishCycleAction }
+function pauseCycleAction() {
+  return { type: CyclesActionTypes.PAUSE_CYCLE }
+}
+
+export {
+  createNewCycleAction,
+  interruptCycleAction,
+  finishCycleAction,
+  pauseCycleAction,
+}

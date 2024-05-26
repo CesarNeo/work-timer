@@ -9,6 +9,7 @@ enum CyclesActionTypes {
   CREATE_NEW_CYCLE = 'CREATE_NEW_CYCLE',
   INTERRUPT_CYCLE = 'INTERRUPT_CYCLE',
   FINISH_CYCLE = 'FINISH_CYCLE',
+  PAUSE_CYCLE = 'PAUSE_CYCLE',
 }
 
 type ICyclesActions = {

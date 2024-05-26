@@ -6,10 +6,25 @@ type ITableCellColumnProps = ComponentProps<'td'>
 type ITaskStatusProps = ComponentProps<'span'> & {
   statusColor: ITaskStatusColor
 }
+type ITableBodyProps = ComponentProps<'tbody'> & {
+  currentPage: number
+}
+type IPaginationProps = ComponentProps<'nav'> & {
+  currentPage: number
+}
+
+type IHistoryPageParams = {
+  searchParams: {
+    page: string
+  }
+}
 
 export type {
   ITableHeadColumnProps,
   ITableCellColumnProps,
   ITaskStatusProps,
   ITaskStatusColor,
+  IHistoryPageParams,
+  ITableBodyProps,
+  IPaginationProps,
 }
