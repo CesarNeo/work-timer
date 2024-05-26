@@ -12,7 +12,6 @@ import {
 import { toast } from 'sonner'
 
 import { getCyclesStateFromLocalStorage } from '@/localstorage/cycles'
-import type { ICycle } from '@/pages/home/types'
 import {
   createNewCycleAction,
   deleteCycleAction,
@@ -22,6 +21,7 @@ import {
 } from '@/reducers/cycles/actions'
 import { cyclesReducer } from '@/reducers/cycles/reducer'
 import type { ICyclesState } from '@/reducers/cycles/types'
+import type { ICycle } from '@/templates/home/types'
 
 interface ICyclesContext {
   cycles: ICycle[]

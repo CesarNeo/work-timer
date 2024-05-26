@@ -1,4 +1,4 @@
-import type { ICycle } from '@/pages/home/types'
+import type { ICycle } from '@/templates/home/types'
 
 import { CyclesActionTypes } from './types'
 
