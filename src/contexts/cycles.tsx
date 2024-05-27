@@ -11,14 +11,8 @@ import {
 } from 'react'
 import { toast } from 'sonner'
 
-import { getCyclesStateFromLocalStorage } from '@/localstorage/cycles'
-import {
-  createNewCycleAction,
-  deleteCycleAction,
-  finishCycleAction,
-  interruptCycleAction,
-  pauseCycleAction,
-} from '@/reducers/cycles/actions'
+import { LocalStorageCycles } from '@/localstorage/cycles'
+import { ReducerActions } from '@/reducers/cycles/actions'
 import { cyclesReducer } from '@/reducers/cycles/reducer'
 import type { ICyclesState } from '@/reducers/cycles/types'
 import type { ICycle } from '@/templates/home/types'
@@ -46,10 +40,10 @@ const defaultCyclesState: ICyclesState = {
 }
 
 function CyclesProvider({ children }: { children: ReactNode }) {
-  const [cyclesState, dispatch] = useReducer(
+  const [cyclesState, dispatchCycles] = useReducer(
     cyclesReducer,
     defaultCyclesState,
-    getCyclesStateFromLocalStorage,
+    LocalStorageCycles.getCyclesState,
   )
   const { cycles, activeCycleId } = cyclesState
   const currentCycle = cycles.find((cycle) => cycle.id === activeCycleId)
@@ -66,7 +60,7 @@ function CyclesProvider({ children }: { children: ReactNode }) {
   )
 
   const markCurrentCycleAsFinished = useCallback(
-    () => dispatch(finishCycleAction()),
+    () => dispatchCycles(ReducerActions.finishCycle()),
     [],
   )
 
@@ -80,15 +74,21 @@ function CyclesProvider({ children }: { children: ReactNode }) {
     [updateAmountSecondsPassed],
   )
 
-  const interruptCycle = useCallback(() => dispatch(interruptCycleAction()), [])
-  const pauseCycle = useCallback(() => dispatch(pauseCycleAction()), [])
+  const interruptCycle = useCallback(
+    () => dispatchCycles(ReducerActions.interruptCycle()),
+    [],
+  )
+  const pauseCycle = useCallback(
+    () => dispatchCycles(ReducerActions.pauseCycle()),
+    [],
+  )
   const deleteCycle = useCallback(
     (cycleId: string) => {
       if (cycleId === activeCycleId) {
         return toast.error('Você não pode deletar um ciclo em andamento')
       }
 
-      dispatch(deleteCycleAction(cycleId))
+      dispatchCycles(ReducerActions.deleteCycle(cycleId))
     },
     [activeCycleId],
   )
@@ -105,7 +105,7 @@ function CyclesProvider({ children }: { children: ReactNode }) {
         startDate: new Date(),
       }
 
-      dispatch(createNewCycleAction(newCycle))
+      dispatchCycles(ReducerActions.createNewCycle(newCycle))
       resetAmountSecondsPassed()
     },
     [resetAmountSecondsPassed],
@@ -133,7 +133,7 @@ function CyclesProvider({ children }: { children: ReactNode }) {
   )
 }
 
-const useCyclesContext = () => {
+function useCyclesContext() {
   const context = useContext(CyclesContext)
 
   if (!context) {

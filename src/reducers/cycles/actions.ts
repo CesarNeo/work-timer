@@ -2,36 +2,28 @@ import type { ICycle } from '@/templates/home/types'
 
 import { CyclesActionTypes } from './types'
 
-function createNewCycleAction(newCycle: ICycle) {
-  return {
-    type: CyclesActionTypes.CREATE_NEW_CYCLE,
-    payload: { newCycle },
-  }
+const ReducerActions = {
+  createNewCycle: (newCycle: ICycle) => {
+    return {
+      type: CyclesActionTypes.CREATE_NEW_CYCLE,
+      payload: { newCycle },
+    }
+  },
+  interruptCycle: () => {
+    return { type: CyclesActionTypes.INTERRUPT_CYCLE }
+  },
+  finishCycle: () => {
+    return { type: CyclesActionTypes.FINISH_CYCLE }
+  },
+  pauseCycle: () => {
+    return { type: CyclesActionTypes.PAUSE_CYCLE }
+  },
+  deleteCycle: (cycleId: string) => {
+    return {
+      type: CyclesActionTypes.DELETE_CYCLE,
+      payload: { cycleId },
+    }
+  },
 }
 
-function interruptCycleAction() {
-  return { type: CyclesActionTypes.INTERRUPT_CYCLE }
-}
-
-function finishCycleAction() {
-  return { type: CyclesActionTypes.FINISH_CYCLE }
-}
-
-function pauseCycleAction() {
-  return { type: CyclesActionTypes.PAUSE_CYCLE }
-}
-
-function deleteCycleAction(cycleId: string) {
-  return {
-    type: CyclesActionTypes.DELETE_CYCLE,
-    payload: { cycleId },
-  }
-}
-
-export {
-  createNewCycleAction,
-  interruptCycleAction,
-  finishCycleAction,
-  pauseCycleAction,
-  deleteCycleAction,
-}
+export { ReducerActions }

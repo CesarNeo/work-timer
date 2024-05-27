@@ -1,4 +1,4 @@
-import { saveCyclesStateToLocalStorage } from '@/localstorage/cycles'
+import { LocalStorageCycles } from '@/localstorage/cycles'
 
 import {
   CyclesActionTypes,
@@ -22,7 +22,7 @@ export function cyclesReducer(
         activeCycleId: action.payload.newCycle.id,
       }
 
-      saveCyclesStateToLocalStorage(newState)
+      LocalStorageCycles.saveCyclesState(newState)
       return newState
     }
     case CyclesActionTypes.INTERRUPT_CYCLE: {
@@ -41,7 +41,7 @@ export function cyclesReducer(
         activeCycleId: null,
       }
 
-      saveCyclesStateToLocalStorage(newState)
+      LocalStorageCycles.saveCyclesState(newState)
       return newState
     }
     case CyclesActionTypes.FINISH_CYCLE: {
@@ -60,7 +60,7 @@ export function cyclesReducer(
         activeCycleId: null,
       }
 
-      saveCyclesStateToLocalStorage(newState)
+      LocalStorageCycles.saveCyclesState(newState)
       return newState
     }
     case CyclesActionTypes.PAUSE_CYCLE: {
@@ -78,7 +78,7 @@ export function cyclesReducer(
         }),
       }
 
-      saveCyclesStateToLocalStorage(newState)
+      LocalStorageCycles.saveCyclesState(newState)
       return newState
     }
     case CyclesActionTypes.DELETE_CYCLE: {
@@ -89,11 +89,11 @@ export function cyclesReducer(
         ),
       }
 
-      saveCyclesStateToLocalStorage(newState)
+      LocalStorageCycles.saveCyclesState(newState)
       return newState
     }
     default:
-      saveCyclesStateToLocalStorage(state)
+      LocalStorageCycles.saveCyclesState(state)
       return state
   }
 }
