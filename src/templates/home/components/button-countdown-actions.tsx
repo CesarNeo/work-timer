@@ -2,6 +2,7 @@
 
 import { Ban, Pause, Play } from 'lucide-react'
 
+import Button from '@/components/base/button'
 import { useCyclesContext } from '@/contexts/cycles'
 
 function ButtonCountdownActions() {
@@ -9,35 +10,33 @@ function ButtonCountdownActions() {
 
   if (!currentCycle) {
     return (
-      <button
+      <Button
         form="counter_form"
         type="submit"
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-green-500 p-4 font-bold text-gray-100 transition-all enabled:hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-70"
+        className="bg-green-500 enabled:hover:bg-green-700"
       >
         <Play className="size-6" />
         Começar
-      </button>
+      </Button>
     )
   }
 
   return (
     <div className="flex w-full gap-3">
-      <button
-        type="button"
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-red-500 p-4 font-bold text-gray-100 transition-all enabled:hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-70"
+      <Button
+        className="bg-red-500 enabled:hover:bg-red-700"
         onClick={interruptCycle}
       >
         <Ban className="size-6" />
         Interromper
-      </button>
-      <button
-        type="button"
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-yellow-500 p-4 font-bold text-gray-700 transition-all enabled:hover:bg-yellow-700 disabled:cursor-not-allowed disabled:opacity-70"
+      </Button>
+      <Button
+        className="bg-yellow-500 text-gray-700 enabled:hover:bg-yellow-700"
         onClick={pauseCycle}
       >
         <Pause className="size-6" />
         Pausar
-      </button>
+      </Button>
     </div>
   )
 }
