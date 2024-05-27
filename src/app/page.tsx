@@ -1,4 +1,4 @@
-import HomeTemplate from '../templates/home'
+import HomeTemplate from '@/templates/home'
 
 function Home() {
   return <HomeTemplate />
